@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\images\eight.jpg" />
+    <None Include="wwwroot\images\five.jpg" />
+    <None Include="wwwroot\images\four.jpg" />
+    <None Include="wwwroot\images\nine.jpg" />
+    <None Include="wwwroot\images\one.jpg" />
+    <None Include="wwwroot\images\seven.jpg" />
+    <None Include="wwwroot\images\six.jpg" />
+    <None Include="wwwroot\images\ten.jpg" />
+    <None Include="wwwroot\images\three.jpg" />
+    <None Include="wwwroot\images\two.jpg" />
+  </ItemGroup>
+
+</Project>
