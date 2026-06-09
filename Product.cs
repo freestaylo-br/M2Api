@@ -33,7 +33,7 @@ public partial class Product
 
     public virtual Category Category { get; set; } = null!;
 
-    public virtual Manufacturer Manufacturer { get; set; } = null!;
+    public virtual Manufacturer? Manufacturer { get; set; } = null!;
 
     public virtual ProductName ProductName { get; set; } = null!;
 

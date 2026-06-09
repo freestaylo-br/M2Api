@@ -218,7 +218,9 @@ public partial class KarpovSpContext : DbContext
 
             entity.ToTable("Product_name");
 
-            entity.Property(e => e.ProductNameId).HasColumnName("product_name_id");
+            entity.Property(e => e.ProductNameId)
+                .ValueGeneratedOnAdd()
+                .HasColumnName("product_name_id");
             entity.Property(e => e.Name)
                 .HasMaxLength(100)
                 .HasColumnName("name");
@@ -283,7 +285,7 @@ public partial class KarpovSpContext : DbContext
             entity.ToTable("Supplier");
 
             entity.Property(e => e.SupplierId).HasColumnName("supplier_id");
-            entity.Property(e => e.SupplierName)
+            entity.Property(e => e.supplier_name)
                 .HasMaxLength(100)
                 .HasColumnName("supplier_name");
         });
