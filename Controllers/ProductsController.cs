@@ -61,6 +61,7 @@ public class ProductsController : ControllerBase
             {
                 ProductId = p.ProductId,
                 Article = p.Article,
+                ProductNameId = p.ProductNameId,
                 ProductName = p.ProductName.Name,
                 Category = p.Category.CategoryName,
                 Manufacturer = p.Manufacturer.ManufacturerName,
@@ -112,18 +113,6 @@ public class ProductsController : ControllerBase
             await image.CopyToAsync(stream);
         }
 
-        var productName =
-            await _context.ProductNames
-                .FirstOrDefaultAsync(x =>
-                    x.Name.Trim().ToLower() ==
-                    dto.ProductName.Trim().ToLower());
-
-        if (productName == null)
-        {
-            return BadRequest(
-                $"Не найден продукт нэйм: {dto.ProductName}");
-        }
-
         var category =
             await _context.Categories
                 .FirstOrDefaultAsync(x =>
@@ -153,8 +142,7 @@ public class ProductsController : ControllerBase
         {
             Article = dto.Article ?? "",
 
-            ProductNameId =
-                productName.ProductNameId,
+            ProductNameId = dto.ProductNameId,
 
             Measurement =
                 dto.Measurement ?? "",
@@ -199,4 +187,137 @@ public class ProductsController : ControllerBase
 
         return Ok();
     }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateProduct(
+    int id,
+    [FromForm] string productJson,
+    IFormFile? image)
+    {
+        var dto =
+            JsonSerializer.Deserialize<ProductDto>(
+                productJson);
+
+        if (dto == null)
+            return BadRequest();
+
+        var product =
+            await _context.Products.FindAsync(id);
+
+        if (product == null)
+            return NotFound("Товар не найден");
+
+        var category =
+            await _context.Categories
+                .FirstOrDefaultAsync(x =>
+                    x.CategoryName == dto.Category);
+
+        var manufacturer =
+            await _context.Manufacturers
+                .FirstOrDefaultAsync(x =>
+                    x.ManufacturerName ==
+                    dto.Manufacturer);
+
+        var supplier =
+            await _context.Suppliers
+                .FirstOrDefaultAsync(x =>
+                    x.supplier_name ==
+                    dto.Supplier);
+
+        if (category == null ||
+            manufacturer == null ||
+            supplier == null)
+        {
+            return BadRequest(
+                "Не найдены связанные данные");
+        }
+
+        product.ProductNameId =
+            dto.ProductNameId;
+
+        product.CategoryId =
+            category.CategoryId;
+
+        product.ManufacturerId =
+            manufacturer.ManufacturerId;
+
+        product.SupplierId =
+            supplier.SupplierId;
+
+        product.Article =
+            dto.Article ?? "";
+
+        product.Measurement =
+            dto.Measurement ?? "";
+
+        product.Amount =
+            dto.Amount;
+
+        product.Discount =
+            dto.Discount;
+
+        product.Count =
+            dto.Count;
+
+        product.Description =
+            dto.Description;
+
+        if (image != null)
+        {
+            var fileName =
+                Guid.NewGuid() +
+                Path.GetExtension(image.FileName);
+
+            var path =
+                Path.Combine(
+                    Directory.GetCurrentDirectory(),
+                    "wwwroot",
+                    "images",
+                    fileName);
+
+            using var stream =
+                new FileStream(
+                    path,
+                    FileMode.Create);
+
+            await image.CopyToAsync(stream);
+
+            product.Photo =
+                fileName;
+        }
+
+        await _context.SaveChangesAsync();
+
+        return Ok();
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteProduct(
+    int id)
+    {
+        var product =
+            await _context.Products
+                .FindAsync(id);
+
+        if (product == null)
+            return NotFound();
+
+        bool existsInCart =
+            await _context.Carts
+                .AnyAsync(x =>
+                    x.ProductId == id);
+
+        if (existsInCart)
+        {
+            return BadRequest(
+                "Товар находится в заказах и не может быть удалён");
+        }
+
+        _context.Products.Remove(product);
+
+        await _context.SaveChangesAsync();
+
+        return Ok();
+    }
+
 }
