@@ -125,7 +125,7 @@ public partial class KarpovSpContext : DbContext
             entity.Property(e => e.ClientId).HasColumnName("client_id");
             entity.Property(e => e.Code).HasColumnName("code");
             entity.Property(e => e.DeliveryDate).HasColumnName("delivery_date");
-            entity.Property(e => e.LocationId).HasColumnName("location_id");
+            entity.Property(e => e.LocationId).HasColumnName("pickup_location_id");
             entity.Property(e => e.OrderDate).HasColumnName("order_date");
             entity.Property(e => e.StatusId).HasColumnName("status_id");
 
@@ -151,13 +151,13 @@ public partial class KarpovSpContext : DbContext
 
             entity.ToTable("Pickup_location");
 
-            entity.Property(e => e.LocationId).HasColumnName("location_id");
+            entity.Property(e => e.LocationId).HasColumnName("pickup_location_id");
             entity.Property(e => e.City)
                 .HasMaxLength(50)
                 .HasColumnName("city");
             entity.Property(e => e.Home)
                 .HasMaxLength(50)
-                .HasColumnName("home");
+                .HasColumnName("house");
             entity.Property(e => e.Index).HasColumnName("index");
             entity.Property(e => e.Street)
                 .HasMaxLength(50)
