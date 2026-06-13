@@ -46,10 +46,10 @@ public class ProductsController : ControllerBase
                     p.Description.ToLower().Contains(word));
             }
         }
-
         if (supplierId.HasValue)
         {
-            query = query.Where(p => p.SupplierId == supplierId.Value);
+            query = query.Where(
+                p => p.SupplierId == supplierId.Value);
         }
 
         query = isSortDescending
