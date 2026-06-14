@@ -5,11 +5,12 @@ namespace M2Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class StatusesController : ControllerBase
+public class PickupLocationsController : ControllerBase
 {
     private readonly KarpovSpContext _context;
 
-    public StatusesController(KarpovSpContext context)
+    public PickupLocationsController(
+        KarpovSpContext context)
     {
         _context = context;
     }
@@ -18,7 +19,7 @@ public class StatusesController : ControllerBase
     public async Task<IActionResult> Get()
     {
         return Ok(
-            await _context.Statuses
+            await _context.PickupLocations
                 .ToListAsync());
     }
 }

@@ -90,6 +90,25 @@ public class ProductsController : ControllerBase
         if (dto == null)
             return BadRequest();
 
+        if (dto.Amount < 0)
+        {
+            return BadRequest(
+                "Цена не может быть отрицательной");
+        }
+
+        if (dto.Count < 0)
+        {
+            return BadRequest(
+                "Количество не может быть отрицательным");
+        }
+
+        if (dto.Discount < 0 ||
+            dto.Discount > 100)
+        {
+            return BadRequest(
+                "Скидка должна быть от 0 до 100%");
+        }
+
         string? fileName = null;
 
         if (image != null)
@@ -206,6 +225,25 @@ public class ProductsController : ControllerBase
 
         if (product == null)
             return NotFound("Товар не найден");
+
+        if (dto.Amount < 0)
+        {
+            return BadRequest(
+                "Цена не может быть отрицательной");
+        }
+
+        if (dto.Count < 0)
+        {
+            return BadRequest(
+                "Количество не может быть отрицательным");
+        }
+
+        if (dto.Discount < 0 ||
+            dto.Discount > 100)
+        {
+            return BadRequest(
+                "Скидка должна быть от 0 до 100%");
+        }
 
         var category =
             await _context.Categories

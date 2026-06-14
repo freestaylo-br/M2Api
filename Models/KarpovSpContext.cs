@@ -91,7 +91,7 @@ public partial class KarpovSpContext : DbContext
                 .HasColumnName("name");
             entity.Property(e => e.Patronymic)
                 .HasMaxLength(100)
-                .HasColumnName("patronymic ");
+                .HasColumnName("patronymic");
             entity.Property(e => e.RoleId).HasColumnName("role_id");
             entity.Property(e => e.Surname)
                 .HasMaxLength(100)
